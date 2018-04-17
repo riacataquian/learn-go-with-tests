@@ -1,4 +1,4 @@
-package arrays
+package sum
 
 import (
 	"reflect"
@@ -18,9 +18,9 @@ func TestSum(t *testing.T) {
 	})
 }
 
-func TestSumAll(t *testing.T) {
+func TestAll(t *testing.T) {
 
-	got := SumAll([]int{1, 2}, []int{0, 9})
+	got := All([]int{1, 2}, []int{0, 9})
 	want := []int{3, 9}
 
 	if !reflect.DeepEqual(got, want) {
@@ -28,8 +28,8 @@ func TestSumAll(t *testing.T) {
 	}
 }
 
-func TestSumAllTails(t *testing.T) {
-	got := SumAllTails([]int{1, 2}, []int{0, 9}, []int{4, 5, 7})
+func TestAllTails(t *testing.T) {
+	got := AllTails([]int{1, 2}, []int{0, 9}, []int{4, 5, 7})
 	want := []int{2, 9, 12}
 
 	if !reflect.DeepEqual(got, want) {

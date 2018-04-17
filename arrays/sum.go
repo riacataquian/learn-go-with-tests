@@ -1,4 +1,4 @@
-package arrays
+package sum
 
 // Sum returns the sum of number slices.
 func Sum(numbers []int) int {
@@ -9,9 +9,9 @@ func Sum(numbers []int) int {
 	return sum
 }
 
-// SumAll returns the sum of all number slices.
+// All returns the sum of all number slices.
 // Demonstrates the use of a variadic function.
-func SumAll(numSlices ...[]int) []int {
+func All(numSlices ...[]int) []int {
 	var sums []int
 
 	for _, numbers := range numSlices {
@@ -21,9 +21,9 @@ func SumAll(numSlices ...[]int) []int {
 	return sums
 }
 
-// SumAllTails calculates the totals of the "tails" of each slice.
+// AllTails calculates the totals of the "tails" of each slice.
 // The tail of a collection is all the items apart from the first one (the "head").
-func SumAllTails(numToSum ...[]int) []int {
+func AllTails(numToSum ...[]int) []int {
 	var sums []int
 	for _, numbers := range numToSum {
 		tail := numbers[1:] // get all except the 0th item.
