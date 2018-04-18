@@ -1,4 +1,4 @@
-package sum
+package array
 
 // Sum returns the sum of number slices.
 func Sum(numbers []int) int {
