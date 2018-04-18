@@ -9,11 +9,10 @@ func Sum(numbers []int) int {
 	return sum
 }
 
-// All returns the sum of all number slices.
+// SumAll returns the sum of all number slices.
 // Demonstrates the use of a variadic function.
-func All(numSlices ...[]int) []int {
-	var sums []int
-
+func SumAll(numSlices ...[]int) []int {
+	sums := make([]int, len(numSlices))
 	for _, numbers := range numSlices {
 		sums = append(sums, Sum(numbers))
 	}
@@ -21,13 +20,17 @@ func All(numSlices ...[]int) []int {
 	return sums
 }
 
-// AllTails calculates the totals of the "tails" of each slice.
+// SumAllTails calculates the totals of the "tails" of each slice.
 // The tail of a collection is all the items apart from the first one (the "head").
-func AllTails(numToSum ...[]int) []int {
+func SumAllTails(numToSum ...[]int) []int {
 	var sums []int
 	for _, numbers := range numToSum {
-		tail := numbers[1:] // get all except the 0th item.
-		sums = append(sums, Sum(tail))
+		if len(numbers) == 0 {
+			sums = append(sums, 0)
+		} else {
+			tail := numbers[1:] // get all except the 0th item.
+			sums = append(sums, Sum(tail))
+		}
 	}
 
 	return sums

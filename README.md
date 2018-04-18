@@ -9,10 +9,12 @@
     - Benchmarking performance.
     - Run `go test -bench=.` to execute benchmarks.
     - `Square` vs `SquareX` results:
+
       ```
       BenchmarkSquare-4    	50000000	        33.9 ns/op
       BenchmarkSquareX-4   	10000000	       138 ns/op
       ```
+
       In `Square`, we initialized an array with N length compared to `SquareX` in which
       we append item as we iterate through the slice.
 4. Arrays
