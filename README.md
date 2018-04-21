@@ -22,3 +22,7 @@
     - `go test -cover` to see test coverage percentage.
     - `reflect.DeepEqual` to check equality of two variables (hmm, though it is not "type-safe").
     - Creating a variadic function.
+5. Shapes
+    - Demonstrates a table-driven tests.
+    - Interfaces, structs and its methods.
+    - Structure test for better readability and maintainability.
