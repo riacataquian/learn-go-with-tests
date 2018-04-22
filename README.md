@@ -26,3 +26,6 @@
     - Demonstrates a table-driven tests.
     - Interfaces, structs and its methods.
     - Structure test for better readability and maintainability.
+6. Wallet
+    - Use https://github.com/kisielk/errcheck to check error handling.
+    - Use pointers, to pass something by reference.
