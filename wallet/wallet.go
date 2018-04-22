@@ -1,6 +1,7 @@
 package wallet
 
 import (
+	"errors"
 	"fmt"
 )
 
@@ -25,4 +26,16 @@ func (w *Wallet) Deposit(amount Bitcoin) {
 // Balance ..
 func (w *Wallet) Balance() Bitcoin {
 	return w.bal
+}
+
+// Withdraw ..
+func (w *Wallet) Withdraw(amount Bitcoin) error {
+	cb := w.bal
+
+	if cb-amount > 0 {
+		w.bal -= amount
+		return nil
+	}
+
+	return errors.New("Wallet has insufficient funds")
 }
