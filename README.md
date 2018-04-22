@@ -29,3 +29,5 @@
 6. Wallet
     - Use https://github.com/kisielk/errcheck to check error handling.
     - Use pointers, to pass something by reference.
+7. Greeter
+    - Demonstrates a testable, decoupled and flexible code with dependency injection.
