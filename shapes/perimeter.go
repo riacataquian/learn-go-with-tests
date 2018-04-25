@@ -4,7 +4,12 @@ import (
 	"math"
 )
 
-// Rectangle ...
+// Shape is any structs that implements an Area() method.
+type Shape interface {
+	Area() float64
+}
+
+// Rectangle describes the properties of a rectangle.
 type Rectangle struct {
 	Width  float64
 	Height float64
@@ -15,28 +20,25 @@ func (r Rectangle) Perimeter() float64 {
 	return 2 * (r.Width + r.Height)
 }
 
+// Area calculates the area of a Rectangle.
+func (r Rectangle) Area() float64 {
+	return r.Width * r.Height
+}
+
+// Triangle describes the properties of a triangle.
 type Triangle struct {
 	Base   float64
 	Height float64
 }
 
+// Area calculates the area of a Triangle.
 func (t Triangle) Area() float64 {
 	return (t.Base * t.Height) / 2
 }
 
-// Circle ...
+// Circle describes the properties of a circle.
 type Circle struct {
 	Radius float64
-}
-
-// Shape ...
-type Shape interface {
-	Area() float64
-}
-
-// Area calculates the area of a Rectangle.
-func (r Rectangle) Area() float64 {
-	return r.Width * r.Height
 }
 
 // Area calculates the area of a Circle.
