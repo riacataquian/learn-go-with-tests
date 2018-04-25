@@ -8,44 +8,30 @@ import (
 )
 
 const (
-	start     = 3
-	finalWord = "Go!"
+	start = 3
+	final = "Go!"
 )
 
-// Sleeper ...
 type Sleeper interface {
 	Sleep()
 }
 
-// SpySleeper ...
-type SpySleeper struct {
-	Calls int
-}
-
-// Sleep ...
-func (s *SpySleeper) Sleep() {
-	s.Calls++
-}
-
-// ConfigurableSleeper ...
 type ConfigurableSleeper struct {
 	duration time.Duration
 }
 
-// Sleep ...
-func (o *ConfigurableSleeper) Sleep() {
-	time.Sleep(o.duration)
+func (s *ConfigurableSleeper) Sleep() {
+	time.Sleep(s.duration)
 }
 
-// Countdown ....
-func Countdown(out io.Writer, sleeper Sleeper) {
+func Countdown(o io.Writer, s Sleeper) {
 	for i := start; i > 0; i-- {
-		sleeper.Sleep()
-		fmt.Fprintln(out, i)
+		s.Sleep()
+		fmt.Fprintln(o, i)
 	}
 
-	sleeper.Sleep()
-	fmt.Fprintf(out, finalWord)
+	s.Sleep()
+	fmt.Fprintf(o, final)
 }
 
 func main() {
