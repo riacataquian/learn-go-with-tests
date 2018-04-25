@@ -24,7 +24,7 @@ Go!`
 	})
 
 	t.Run("sleep after every print", func(t *testing.T) {
-		opsPrinter := &OperationsSpy{}
+		opsPrinter := &Ops{}
 		Countdown(opsPrinter, opsPrinter)
 
 		want := []string{
