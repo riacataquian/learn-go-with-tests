@@ -1,11 +1,11 @@
 # Learn Go with tests
 
-1. Hello World
+- [Hello](https://github.com/riacataquian/learn-go-with-tests/tree/master/hello)
     - Subtests, which groups test suites together.
-2. Adder
+- [Adder](https://github.com/riacataquian/learn-go-with-tests/tree/master/adder)
     - Example test suite for documentation.
     - Run `godoc -http :8000` to view local workspace packages and their documentation.
-3. Iteration
+- [Iteration](https://github.com/riacataquian/learn-go-with-tests/tree/master/iteration)
     - Benchmarking performance.
     - Run `go test -bench=.` to execute benchmarks.
     - `Square` vs `SquareX` results:
@@ -17,17 +17,20 @@
 
       In `Square`, we initialized an array with N length compared to `SquareX` in which
       we append item as we iterate through the slice.
-4. Arrays
+- [Arrays](https://github.com/riacataquian/learn-go-with-tests/tree/master/arrays)
     - Use of `range` over `for`.
     - `go test -cover` to see test coverage percentage.
     - `reflect.DeepEqual` to check equality of two variables (hmm, though it is not "type-safe").
     - Creating a variadic function.
-5. Shapes
+- [Shapes](https://github.com/riacataquian/learn-go-with-tests/tree/master/shapes)
     - Demonstrates a table-driven tests.
     - Interfaces, structs and its methods.
     - Structure test for better readability and maintainability.
-6. Wallet
+- [Wallet](https://github.com/riacataquian/learn-go-with-tests/tree/master/wallet)
     - Use https://github.com/kisielk/errcheck to check error handling.
     - Use pointers, to pass something by reference.
-7. Greeter
+- [Greeter](https://github.com/riacataquian/learn-go-with-tests/tree/master/greeter)
     - Demonstrates a testable, decoupled and flexible code with dependency injection.
+- [Countdown](https://github.com/riacataquian/learn-go-with-tests/tree/master/countdown)
+    - Demonstrates _mocking_ in tests.
+    - Favor testing behaviour over implementation.
