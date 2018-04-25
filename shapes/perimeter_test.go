@@ -11,7 +11,8 @@ func TestPerimeter(t *testing.T) {
 	want := 40.0
 
 	if got != want {
-		t.Errorf("got %.2f, want %.2f", got, want)
+		desc := "Computes for the perimeter of a Rectangle"
+		t.Errorf("%s: Perimeter() = %.2f, want %.2f", desc, got, want)
 	}
 }
 
