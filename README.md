@@ -42,3 +42,7 @@
     - How map is bad for concurrent writes.
     - Effective use of `channel` as the communication between different processes.
     - `go test -race` as a tool to detect race conditions.
+- [Racer](https://github.com/riacataquian/learn-go-with-tests/tree/master/racer)
+    - Demonstrates use of `select` construct.
+    - Use of `net/http/httptest` for a controlled and reliable http tests.
+    - `time.After` returns a chan (like ping) and will send a signal to kill it after the defined amount of time.
