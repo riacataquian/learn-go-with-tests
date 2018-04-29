@@ -15,6 +15,7 @@ func Racer(a, b string) (faster string, err error) {
 
 // ConfigurableRacer determine the faster website between a and b url given a defaultTimeout.
 func ConfigurableRacer(a, b string, timeout time.Duration) (faster string, err error) {
+	// select returns the clause of the first case to send a value to its channel.
 	select { // lets you wait on multiple channels.
 	case <-ping(a):
 		return a, nil
