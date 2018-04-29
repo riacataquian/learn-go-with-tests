@@ -1,6 +1,6 @@
 package concurrency
 
-// WebsiteChecker ...
+// WebsiteChecker is the function signature for checking if a website is working ok.
 type WebsiteChecker func(string) bool
 
 type result struct {
@@ -8,7 +8,9 @@ type result struct {
 	bool
 }
 
-// CheckWebsites ...
+// CheckWebsites performs WebsiteChecker on urls.
+//
+// Returns a map of the websites checked and its state.
 func CheckWebsites(wc WebsiteChecker, urls []string) map[string]bool {
 	res := make(map[string]bool)
 	resCh := make(chan result)
