@@ -34,3 +34,11 @@
 - [Countdown](https://github.com/riacataquian/learn-go-with-tests/tree/master/countdown)
     - Demonstrates _mocking_ in tests.
     - Favor testing behaviour over implementation.
+- [Concurrency](https://github.com/riacataquian/learn-go-with-tests/tree/master/concurrency)
+    - Performing mocks in tests for a better controlled and faster execution.
+    - `goroutines` as the basic unit of concurrency in Go.
+    - Use of anonymous functions.
+    - `go` keyword which accepts a function then execute it in another process.
+    - How map is bad for concurrent writes.
+    - Effective use of `channel` as the communication between different processes.
+    - `go test -race` as a tool to detect race conditions.
