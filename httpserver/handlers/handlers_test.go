@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -25,7 +26,7 @@ func TestPlayerHandler(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.desc, func(t *testing.T) {
-			request, _ := http.NewRequest(http.MethodGet, "/players/"+test.player, nil)
+			request, _ := http.NewRequest(http.MethodGet, fmt.Sprintf("/players/%s", test.player), nil)
 			response := httptest.NewRecorder() // so we can spy on what is written on response.
 
 			PlayerHandler(response, request)
