@@ -60,6 +60,17 @@ func TestPlayerHandler(t *testing.T) {
 		want := http.StatusNotFound
 		assertStatus(t, desc, response.Code, want)
 	})
+
+	desc = "returns 200 if a player is found"
+	t.Run(desc, func(t *testing.T) {
+		request := newGetRequest("Floyd")
+		response := httptest.NewRecorder()
+
+		server.ServeHTTP(response, request)
+
+		want := http.StatusOK
+		assertStatus(t, desc, response.Code, want)
+	})
 }
 
 func newGetRequest(player string) *http.Request {
