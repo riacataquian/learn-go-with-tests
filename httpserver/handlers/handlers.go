@@ -7,8 +7,7 @@ import (
 
 // PlayerStore ...
 type PlayerStore interface {
-	// GetPlayerScore(string) int
-	GetPlayerScore(name string) string
+	GetPlayerScore(string) int
 	RecordWin(name string)
 }
 
@@ -37,9 +36,9 @@ func (p *PlayerServer) processWin(w http.ResponseWriter, player string) {
 func (p *PlayerServer) getScore(w http.ResponseWriter, player string) {
 	score := p.Store.GetPlayerScore(player)
 
-	if score == "" {
+	if score == 0 {
 		w.WriteHeader(http.StatusNotFound)
 	}
 
-	fmt.Fprintf(w, score)
+	fmt.Fprint(w, score)
 }

@@ -8,12 +8,11 @@ import (
 )
 
 type StubPlayerStore struct {
-	// scores map[string]int
-	scores   map[string]string
+	scores   map[string]int
 	winCalls []string
 }
 
-func (s *StubPlayerStore) GetPlayerScore(name string) string {
+func (s *StubPlayerStore) GetPlayerScore(name string) int {
 	score := s.scores[name]
 	return score
 }
@@ -26,9 +25,9 @@ func TestPlayerHandler(t *testing.T) {
 	// desc holds the test suite description.
 	var desc string
 	store := &StubPlayerStore{
-		map[string]string{
-			"Pepper": "20",
-			"Floyd":  "10",
+		map[string]int{
+			"Pepper": 20,
+			"Floyd":  10,
 		},
 		nil,
 	}
@@ -67,7 +66,6 @@ func TestPlayerHandler(t *testing.T) {
 		assertStatus(t, desc, response.Code, want)
 	})
 
-	desc = "returns 200 if a player is found"
 	t.Run(desc, func(t *testing.T) {
 		request := newGetScoreRequest("Floyd")
 		response := httptest.NewRecorder()
@@ -82,7 +80,7 @@ func TestPlayerHandler(t *testing.T) {
 func TestStoreWins(t *testing.T) {
 	var desc string
 	store := &StubPlayerStore{
-		map[string]string{},
+		map[string]int{},
 		nil,
 	}
 	server := &PlayerServer{store}
@@ -134,7 +132,7 @@ func assertStatus(t *testing.T, desc string, got, want int) {
 	}
 }
 
-func assertResponseBody(t *testing.T, desc, got, want string) {
+func assertResponseBody(t *testing.T, desc string, got, want string) {
 	t.Helper()
 
 	if got != want {
