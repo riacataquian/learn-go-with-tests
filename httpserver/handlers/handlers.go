@@ -19,5 +19,8 @@ type PlayerServer struct {
 // ServeHTTP ...
 func (p *PlayerServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	player := r.URL.Path[len("/players/"):]
+
+	w.WriteHeader(http.StatusNotFound)
+
 	fmt.Fprintf(w, p.Store.GetPlayerScore(player))
 }
