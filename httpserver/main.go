@@ -7,12 +7,18 @@ import (
 	"learn-go-with-tests/httpserver/handlers"
 )
 
-func main() {
-	// The HandlerFunc type is an adapter to allow the use of ordinary functions as HTTP handlers.
-	// If f is a function with the appropriate signature, HandlerFunc(f) is a Handler that calls f.
-	handler := http.HandlerFunc(handlers.PlayerHandler)
+// InMemoryPlayerStore ...
+type InMemoryPlayerStore struct{}
 
-	if err := http.ListenAndServe(":5000", handler); err != nil {
+// GetPlayerScore ...
+func (i *InMemoryPlayerStore) GetPlayerScore(name string) string {
+	return "123"
+}
+
+func main() {
+	server := &handlers.PlayerServer{&InMemoryPlayerStore{}}
+
+	if err := http.ListenAndServe(":5000", server); err != nil {
 		log.Fatalf("could not listen to port 5000 %v", err)
 	}
 }
