@@ -7,24 +7,26 @@ import (
 	"learn-go-with-tests/httpserver/handlers"
 )
 
-// InMemoryPlayerStore ...
+// InMemoryPlayerStore serves as the storage of players and their scores.
+//
+// Replace me with a real-world storage like Postgres, SQL, etc.
 type InMemoryPlayerStore struct {
 	Store map[string]int
 }
 
-// NewInMemoryPlayerStore ...
+// NewInMemoryPlayerStore is a convenient wrapper to initialize a store.
 func NewInMemoryPlayerStore() *InMemoryPlayerStore {
 	return &InMemoryPlayerStore{map[string]int{}}
 }
 
-// RecordWin ...
-func (i *InMemoryPlayerStore) RecordWin(name string) {
-	i.Store[name]++
+// RecordWin persists a score for the player.
+func (i *InMemoryPlayerStore) RecordWin(player string) {
+	i.Store[player]++
 }
 
-// GetPlayerScore ...
-func (i *InMemoryPlayerStore) GetPlayerScore(name string) int {
-	return i.Store[name]
+// GetPlayerScore retrieve the player's score from the store.
+func (i *InMemoryPlayerStore) GetPlayerScore(player string) int {
+	return i.Store[player]
 }
 
 func main() {

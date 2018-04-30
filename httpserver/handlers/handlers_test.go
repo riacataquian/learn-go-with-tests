@@ -22,8 +22,8 @@ func (s *StubPlayerStore) RecordWin(name string) {
 }
 
 func TestPlayerHandler(t *testing.T) {
-	// desc holds the test suite description.
 	var desc string
+
 	store := &StubPlayerStore{
 		map[string]int{
 			"Pepper": 20,
@@ -66,6 +66,7 @@ func TestPlayerHandler(t *testing.T) {
 		assertStatus(t, desc, response.Code, want)
 	})
 
+	desc = "returns 200 for valid players"
 	t.Run(desc, func(t *testing.T) {
 		request := newGetScoreRequest("Floyd")
 		response := httptest.NewRecorder()
@@ -85,10 +86,8 @@ func TestStoreWins(t *testing.T) {
 	}
 	server := &PlayerServer{store}
 
-	desc = "it records win when POST"
-	t.Run(desc, func(t *testing.T) {
+	t.Run("it records win when POST", func(t *testing.T) {
 		player := "Pepper"
-
 		request := newPostWinRequest(player)
 		response := httptest.NewRecorder()
 
@@ -98,9 +97,7 @@ func TestStoreWins(t *testing.T) {
 			t.Errorf("got %d, want %d", len(store.winCalls), 1)
 		}
 
-		if store.winCalls[0] != player {
-			t.Errorf("got '%s', want '%s'", store.winCalls[0], player)
-		}
+		assertResponseBody(t, "it records win for player when POST", store.winCalls[0], player)
 	})
 
 	desc = "it returns http.StatusAccepted response"
@@ -109,7 +106,6 @@ func TestStoreWins(t *testing.T) {
 		response := httptest.NewRecorder()
 
 		server.ServeHTTP(response, request)
-
 		assertStatus(t, desc, response.Code, http.StatusAccepted)
 	})
 }

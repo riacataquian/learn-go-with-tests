@@ -5,18 +5,19 @@ import (
 	"net/http"
 )
 
-// PlayerStore ...
+// PlayerStore describes the transaction allowed for the storage.
 type PlayerStore interface {
 	GetPlayerScore(string) int
 	RecordWin(name string)
 }
 
-// PlayerServer ...
+// PlayerServer describes the HTTP server.
 type PlayerServer struct {
+	// Store is the object for storage.
 	Store PlayerStore
 }
 
-// ServeHTTP ...
+// ServeHTTP process and serves HTTP requests and responses.
 func (p *PlayerServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	player := r.URL.Path[len("/players/"):]
 
