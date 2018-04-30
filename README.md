@@ -46,3 +46,7 @@
     - Demonstrates use of `select` construct.
     - Use of `net/http/httptest` for a controlled and reliable http tests.
     - `time.After` returns a chan (like ping) and will send a signal to kill it after the defined amount of time.
+- [HttpServer](https://github.com/riacataquian/learn-go-with-tests/tree/master/httpserver)
+    - HTTP server testing.
+    - Mocking a data store.
+    - Demonstrates a unit and integration testing.
