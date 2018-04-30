@@ -36,7 +36,7 @@ func TestPlayerHandler(t *testing.T) {
 		server.ServeHTTP(response, request)
 
 		want := "20"
-		assertBodyResponse(t, response.Body.String(), desc, want)
+		assertBodyResponse(t, desc, response.Body.String(), want)
 	})
 
 	desc = "returns Floyd's score"
@@ -47,7 +47,7 @@ func TestPlayerHandler(t *testing.T) {
 		server.ServeHTTP(response, request)
 
 		want := "10"
-		assertBodyResponse(t, response.Body.String(), desc, want)
+		assertBodyResponse(t, desc, response.Body.String(), want)
 	})
 
 	desc = "returns 404 on missing players"
@@ -57,12 +57,8 @@ func TestPlayerHandler(t *testing.T) {
 
 		server.ServeHTTP(response, request)
 
-		got := response.Code
 		want := http.StatusNotFound
-		// assertBodyResponse(t, response.Code, desc, want)
-		if got != want {
-			t.Errorf("PlayerHandler(_, _): %s\ngot %d, want %d", desc, got, want)
-		}
+		assertStatus(t, desc, response.Code, want)
 	})
 }
 
@@ -71,7 +67,15 @@ func newGetRequest(player string) *http.Request {
 	return request
 }
 
-func assertBodyResponse(t *testing.T, got string, desc string, want string) {
+func assertStatus(t *testing.T, desc string, got, want int) {
+	t.Helper()
+
+	if got != want {
+		t.Errorf("PlayerHandler(_, _): %s\ngot %d, want %d", desc, got, want)
+	}
+}
+
+func assertBodyResponse(t *testing.T, desc, got, want string) {
 	t.Helper()
 
 	if got != want {
