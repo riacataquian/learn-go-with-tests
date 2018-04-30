@@ -20,13 +20,13 @@ func (s *StubPlayerStore) GetPlayerScore(name string) string {
 func TestPlayerHandler(t *testing.T) {
 	// desc holds the test suite description.
 	var desc string
-	store := StubPlayerStore{
+	store := &StubPlayerStore{
 		map[string]string{
 			"Pepper": "20",
 			"Floyd":  "10",
 		},
 	}
-	server := &PlayerServer{&store}
+	server := &PlayerServer{store}
 
 	desc = "returns Pepper's score"
 	t.Run(desc, func(t *testing.T) {
@@ -71,6 +71,29 @@ func TestPlayerHandler(t *testing.T) {
 		want := http.StatusOK
 		assertStatus(t, desc, response.Code, want)
 	})
+}
+
+func TestStoreWins(t *testing.T) {
+	var desc string
+	store := &StubPlayerStore{
+		map[string]string{},
+	}
+	server := &PlayerServer{store}
+
+	desc = "it returns accepted on POST"
+	t.Run(desc, func(t *testing.T) {
+		request := newPostRequest("Pepper")
+		response := httptest.NewRecorder()
+
+		server.ServeHTTP(response, request)
+
+		assertStatus(t, desc, response.Code, http.StatusAccepted)
+	})
+}
+
+func newPostRequest(player string) *http.Request {
+	request, _ := http.NewRequest(http.MethodPost, fmt.Sprintf("/players/%s", player), nil)
+	return request
 }
 
 func newGetRequest(player string) *http.Request {
