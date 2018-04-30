@@ -9,12 +9,17 @@ import (
 
 type StubPlayerStore struct {
 	// scores map[string]int
-	scores map[string]string
+	scores   map[string]string
+	winCalls []string
 }
 
 func (s *StubPlayerStore) GetPlayerScore(name string) string {
 	score := s.scores[name]
 	return score
+}
+
+func (s *StubPlayerStore) RecordWin(name string) {
+	s.winCalls = append(s.winCalls, name)
 }
 
 func TestPlayerHandler(t *testing.T) {
@@ -25,6 +30,7 @@ func TestPlayerHandler(t *testing.T) {
 			"Pepper": "20",
 			"Floyd":  "10",
 		},
+		nil,
 	}
 	server := &PlayerServer{store}
 
@@ -77,12 +83,31 @@ func TestStoreWins(t *testing.T) {
 	var desc string
 	store := &StubPlayerStore{
 		map[string]string{},
+		nil,
 	}
 	server := &PlayerServer{store}
 
-	desc = "it returns accepted on POST"
+	desc = "it records win when POST"
 	t.Run(desc, func(t *testing.T) {
-		request := newPostRequest("Pepper")
+		player := "Pepper"
+
+		request := newPostRequest(player)
+		response := httptest.NewRecorder()
+
+		server.ServeHTTP(response, request)
+
+		if len(store.winCalls) != 1 {
+			t.Errorf("got %d, want %d", len(store.winCalls), 1)
+		}
+
+		if store.winCalls[0] != player {
+			t.Errorf("got '%s', want '%s'", store.winCalls[0], player)
+		}
+	})
+
+	desc = "it returns http.StatusAccepted response"
+	t.Run(desc, func(t *testing.T) {
+		request := newPostRequest("Strange")
 		response := httptest.NewRecorder()
 
 		server.ServeHTTP(response, request)

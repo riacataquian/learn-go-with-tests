@@ -15,6 +15,10 @@ func (i *InMemoryPlayerStore) GetPlayerScore(name string) string {
 	return "123"
 }
 
+// RecordWin ...
+func (i *InMemoryPlayerStore) RecordWin(name string) {
+}
+
 func main() {
 	server := &handlers.PlayerServer{&InMemoryPlayerStore{}}
 
