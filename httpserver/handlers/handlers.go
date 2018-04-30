@@ -5,17 +5,19 @@ import (
 	"net/http"
 )
 
-// PlayerHandler ...
-func PlayerHandler(w http.ResponseWriter, r *http.Request) {
-	player := r.URL.Path[len("/players/"):]
-
-	fmt.Fprintf(w, GetPlayerScore(player))
+// PlayerStore ...
+type PlayerStore interface {
+	// GetPlayerScore(string) int
+	GetPlayerScore(string) string
 }
 
-func GetPlayerScore(name string) string {
-	if name == "Pepper" {
-		return "20"
-	}
+// PlayerServer ...
+type PlayerServer struct {
+	Store PlayerStore
+}
 
-	return "10"
+// ServeHTTP ...
+func (p *PlayerServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	player := r.URL.Path[len("/players/"):]
+	fmt.Fprintf(w, p.Store.GetPlayerScore(player))
 }
