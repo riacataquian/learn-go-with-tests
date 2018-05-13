@@ -14,7 +14,7 @@ const (
 	write = "write"
 )
 
-// Sleeper is what every normal person is.
+// Sleeper ...
 type Sleeper interface {
 	Sleep()
 }
@@ -24,7 +24,7 @@ type ConfigurableSleeper struct {
 	duration time.Duration
 }
 
-// Sleep is what every normal person does.
+// Sleep pause the timer given the duration.
 func (s *ConfigurableSleeper) Sleep() {
 	time.Sleep(s.duration)
 }
