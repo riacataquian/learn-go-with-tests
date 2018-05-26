@@ -30,6 +30,7 @@
     - Use https://github.com/kisielk/errcheck to check error handling.
     - Use pointers, to pass something by reference.
 - [DI](https://github.com/riacataquian/learn-go-with-tests/tree/master/di)
+    - Testing printed output (`fmt.Printf`).
     - Demonstrates a testable, decoupled and flexible code with dependency injection.
 - [Countdown](https://github.com/riacataquian/learn-go-with-tests/tree/master/countdown)
     - Demonstrates _mocking_ in tests.
