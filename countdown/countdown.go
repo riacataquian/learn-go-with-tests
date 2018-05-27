@@ -8,54 +8,42 @@ import (
 )
 
 const (
-	start = 3
-	final = "Go!"
-	sleep = "sleep"
-	write = "write"
+	startCount = 3
+	final      = "Go!"
+	sleep      = "sleep"
+	write      = "write"
 )
 
-// Sleeper ...
+// Sleeper describes a sleeper object.
 type Sleeper interface {
 	Sleep()
 }
 
-// ConfigurableSleeper sleeps repeatedly every duration.
+// ConfigurableSleeper is an implementation of Sleeper interface with a defined delay.
 type ConfigurableSleeper struct {
+	// duration is the duration of its `Sleep` operation.
 	duration time.Duration
 }
 
 // Sleep pause the timer given the duration.
+//
+// It is ConfigurableSleeper's implementation of the `Sleeper` interface.
 func (s *ConfigurableSleeper) Sleep() {
 	time.Sleep(s.duration)
 }
 
-// Countdown counts down from `start` to `final` and repeatedly sleep given a duration.
+// Countdown counts down from `startCount` to `final` and repeatedly sleep given a duration.
+//
+// In `main` we will send to `os.Stdout` so users can see the printed output,
+// in test we will send to `bytes.Buffer` for later capturing.
 func Countdown(o io.Writer, s Sleeper) {
-	for i := start; i > 0; i-- {
+	for i := startCount; i > 0; i-- {
 		s.Sleep()
 		fmt.Fprintln(o, i)
 	}
 
 	s.Sleep()
 	fmt.Fprintf(o, final)
-}
-
-// Ops holds the series of the operations performed.
-type Ops struct {
-	Calls []string
-}
-
-// Sleep is.. luxury.
-func (o *Ops) Sleep() {
-	o.Calls = append(o.Calls, sleep)
-}
-
-// Write appends every operation performed to Ops.Calls.
-//
-// It accepts p []byte which implements io.Writer.
-func (o *Ops) Write(p []byte) (n int, err error) {
-	o.Calls = append(o.Calls, write)
-	return
 }
 
 func main() {
