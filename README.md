@@ -33,8 +33,8 @@
     - Testing printed output (`fmt.Printf`).
     - Demonstrates a testable, decoupled and flexible code with dependency injection.
 - [Countdown](https://github.com/riacataquian/learn-go-with-tests/tree/master/countdown)
-    - Demonstrates _mocking_ in tests.
-    - Favor testing behaviour over implementation.
+    - Demonstrates _mocking_ and _spies_ to test against _how_ a dependency is used.
+    - Test against behavior over implementation.
 - [Concurrency](https://github.com/riacataquian/learn-go-with-tests/tree/master/concurrency)
     - Performing mocks in tests for a better controlled and faster execution.
     - `goroutines` as the basic unit of concurrency in Go.
