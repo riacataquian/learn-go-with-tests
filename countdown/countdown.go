@@ -23,7 +23,9 @@ type Sleeper interface {
 type ConfigurableSleeper struct {
 	// duration is the duration of its `Sleep` operation.
 	duration time.Duration
-	sleep    func(time.Duration)
+	// sleep describes time.Sleep's function signature.
+	// See TestConfigurableSleeper.
+	sleep func(time.Duration)
 }
 
 // Sleep pause the timer given the duration.
