@@ -23,13 +23,14 @@ type Sleeper interface {
 type ConfigurableSleeper struct {
 	// duration is the duration of its `Sleep` operation.
 	duration time.Duration
+	sleep    func(time.Duration)
 }
 
 // Sleep pause the timer given the duration.
 //
 // It is ConfigurableSleeper's implementation of the `Sleeper` interface.
 func (s *ConfigurableSleeper) Sleep() {
-	time.Sleep(s.duration)
+	s.sleep(s.duration)
 }
 
 // Countdown counts down from `startCount` to `final` and repeatedly sleep given a duration.
@@ -47,5 +48,5 @@ func Countdown(o io.Writer, s Sleeper) {
 }
 
 func main() {
-	Countdown(os.Stdout, &ConfigurableSleeper{1 * time.Second})
+	Countdown(os.Stdout, &ConfigurableSleeper{1 * time.Second, time.Sleep})
 }
