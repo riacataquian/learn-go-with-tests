@@ -7,6 +7,7 @@ import (
 // WebsiteChecker is the function signature for checking if a website is working ok.
 type WebsiteChecker func(string) bool
 
+// result is the type of the channel that receives results.
 type result struct {
 	string // example of an unnamed key, access it like: result.string
 	bool
@@ -30,8 +31,16 @@ func CheckWebsites(wc WebsiteChecker, urls []string) map[string]bool {
 	// Communication over an unbuffered channels causes the sending and receiving go routines to *synchronize*.
 
 	for _, url := range urls {
+		// By giving each anonymous function a parameter of the url, `u`,
+		// and the calling the anonymous function with the `url` as the argument,
+		// we make sure that the value of `u` is fixed as the value of the url
+		// for the iteration of the loop that we're launching the goroutine in.
 		go func(u string) {
 			fmt.Printf("sending %s..\n", u)
+
+			// Instead of sending directly the results to a data structure that
+			// will hold the results, we would send it instead to the resCh.
+			//
 			// send statement: this uses the <- operator,
 			// taking a channel on the left and a value on the right:
 			resCh <- result{u, wc(u)}
@@ -47,7 +56,7 @@ func CheckWebsites(wc WebsiteChecker, urls []string) map[string]bool {
 
 		fmt.Printf("received %s: %v..\n\n", r.string, r.bool)
 
-		// Then update the results map.
+		// Use r then to update the `res` map.
 		res[r.string] = r.bool
 	}
 
