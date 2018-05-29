@@ -36,12 +36,13 @@
     - Demonstrates _mocking_ and _spies_ to test against _how_ a dependency is used.
     - Test against behavior over implementation.
 - [Concurrency](https://github.com/riacataquian/learn-go-with-tests/tree/master/concurrency)
-    - Performing mocks in tests for a better controlled and faster execution.
-    - `goroutines` as the basic unit of concurrency in Go.
-    - Use of anonymous functions.
-    - `go` keyword which accepts a function then execute it in another process.
-    - How map is bad for concurrent writes.
-    - Effective use of `channel` as the communication between different processes.
+    - Demonstrates use of `goroutines` as the basic unit of concurrency in Go,
+      for non-blocking operations.
+    - Anonymous functions maintain access to the lexical scope they are defined in.
+    - Map is bad for concurrent writes.
+    - Effective use of `channel` for better communication and control between goroutines,
+      prevents race condition bugs when making use of native Go data structures manually.
+    - Anonymous struct fields: see result struct.
     - `go test -race` as a tool to detect race conditions.
 - [Racer](https://github.com/riacataquian/learn-go-with-tests/tree/master/racer)
     - Demonstrates use of `select` construct.

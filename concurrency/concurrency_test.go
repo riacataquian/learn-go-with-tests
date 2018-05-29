@@ -1,7 +1,7 @@
 package concurrency
 
 import (
-	"reflect"
+	"github.com/kylelemons/godebug/pretty"
 	"testing"
 	"time"
 )
@@ -21,9 +21,12 @@ func TestCheckWebsites(t *testing.T) {
 		"https://workingexample.com",
 	}
 
-	got := CheckWebsites(mockWebsiteChecker, urls)
-	if len(urls) != len(got) {
-		t.Fatalf("got %v, want %v", len(got), len(urls))
+	res := CheckWebsites(mockWebsiteChecker, urls)
+
+	want := len(urls)
+	got := len(res)
+	if want != got {
+		t.Fatalf("got %v, want %v", got, want)
 	}
 
 	expected := map[string]bool{
@@ -31,9 +34,8 @@ func TestCheckWebsites(t *testing.T) {
 		"https://github.com":         false,
 		"https://workingexample.com": true,
 	}
-
-	if !reflect.DeepEqual(got, expected) {
-		t.Fatalf("got %v, want %v", got, expected)
+	if s := pretty.Compare(expected, res); s != "" {
+		t.Fatalf("CheckWebsites(_, %v): Diff -got +want:\n %s", urls, s)
 	}
 }
 
