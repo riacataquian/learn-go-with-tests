@@ -51,3 +51,8 @@
 - [HttpServer](https://github.com/riacataquian/learn-go-with-tests/tree/master/httpserver)
   - Implement `Handler` interface to create web servers.
   - Use `go build` which takes in all `.go` files in the directory to build the program as an executable file via `./myprogram`.
+- [JSON](https://github.com/riacataquian/learn-go-with-tests/tree/master/httpserver) (HttpServer extension)
+  - Usage of `ServeMux`, Go's request multiplexer.
+  - Encapsulate `http.Handler` to a struct so setting up routes can only be done once.
+  - When types are embedded, its methods are promoted. Only expose what is necessary to your public API.
+  - JSON decoding and encoding.

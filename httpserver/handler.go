@@ -1,19 +1,32 @@
 package main
 
+import (
+	"net/http"
+
+	"learn-go-with-tests/httpserver/memstore"
+)
+
 // PlayerStore describes a PlayerServer's persistence layer.
 type PlayerStore interface {
 	GetPlayerScore(string) int
 	RecordWin(string)
+	GetLeague() []memstore.Player
 }
 
 // PlayerServer encapsulate the server's persistence layer.
 // It also implements Handler interface to be able to start an HTTP server.
 type PlayerServer struct {
 	store PlayerStore
+	// By embedding http.Handler, PlayerServer now has a ServeHTTP method.
+	// Be careful tho, https://github.com/quii/learn-go-with-tests/blob/master/json.md#any-downsides.
+	//
+	// In this case, it is safe since we know what we're promoting: only the ServeHTTP method.
+	http.Handler
 }
 
 // Second iteration:
 // PlayerServer ...
+// Not needed since server.go makes use of store's implementation.
 // func PlayerServer(w http.ResponseWriter, r *http.Request) {
 // 	// First iteration:
 // 	// ResponseWriter also implements io.Writer so we can use fmt.Fprintf to send strings
@@ -26,14 +39,14 @@ type PlayerServer struct {
 // }
 
 // GetPlayerScore retrieves a player's score.
-func (p *PlayerServer) GetPlayerScore(name string) string {
-	if name == "Pepper" {
-		return "20"
-	}
+// func (p *PlayerServer) GetPlayerScore(name string) string {
+// 	if name == "Pepper" {
+// 		return "20"
+// 	}
 
-	if name == "Floyd" {
-		return "10"
-	}
+// 	if name == "Floyd" {
+// 		return "10"
+// 	}
 
-	return ""
-}
+// 	return ""
+// }
