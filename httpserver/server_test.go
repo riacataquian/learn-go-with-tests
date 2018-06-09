@@ -7,10 +7,12 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"learn-go-with-tests/httpserver/memstore"
 )
 
 func TestPlayerServer(t *testing.T) {
-	store := NewInMemoryPlayerStore()
+	store := memstore.New()
 	server := PlayerServer{store}
 	player := "Pepper"
 

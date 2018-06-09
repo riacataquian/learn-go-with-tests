@@ -12,28 +12,44 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+
+	"learn-go-with-tests/httpserver/memstore"
 )
 
-// InMemoryPlayerStore is a mock data source.
+func main() {
+	// First iteration:
+	// We need the `Handler` interface to be able to create a server.
+	// Typically, we do that by creating a `struct` and make it implement the interface.
+	//
+	// However, the use-case for structs is for holding data but currently, we have no state,
+	// so it doesn't feel right to be creating one.
+	// http.HandlerFunc lets us avoid this: https://golang.org/pkg/net/http/#HandlerFunc.
+	//
+	// So we use this to wrap our `PlayerServer` so that it now conforms to the type `Handler`.
+	// handler := http.HandlerFunc(PlayerServer)
+
+	s := memstore.New()
+	// We can pass PlayerServer as argument to http.ListenAndServe because it implements
+	// ServeHTTP(http.ResponseWriter, http.Request) method.
+	server := &PlayerServer{s}
+	if err := http.ListenAndServe(":5000", server); err != nil {
+		log.Fatalf("could not listen to port 5000: %v", err)
+	}
+}
+
+// ServeHTTP is PlayerServer's Handler interface implementation.
 //
-// Use InMemoryPlayerStore until a working persistence layer is in place.
-type InMemoryPlayerStore struct {
-	store map[string]int
-}
+// Third iteration:
+// Switch transaction between request methods.
+func (p *PlayerServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	player := r.URL.Path[len("/players/"):]
 
-// NewInMemoryPlayerStore initializes a InMemoryPlayerStore.
-func NewInMemoryPlayerStore() *InMemoryPlayerStore {
-	return &InMemoryPlayerStore{map[string]int{}}
-}
-
-// RecordWin increment a player's score.
-func (i *InMemoryPlayerStore) RecordWin(name string) {
-	i.store[name]++
-}
-
-// GetPlayerScore retrieves a player's score.
-func (i *InMemoryPlayerStore) GetPlayerScore(name string) int {
-	return i.store[name]
+	switch r.Method {
+	case http.MethodPost:
+		p.processWin(w, player)
+	case http.MethodGet:
+		p.showScore(w, player)
+	}
 }
 
 // processWin handle HTTP requests to increment a player's score.
@@ -52,39 +68,4 @@ func (p *PlayerServer) showScore(w http.ResponseWriter, player string) {
 	}
 
 	fmt.Fprint(w, score)
-}
-
-// ServeHTTP is PlayerServer's Handler interface implementation.
-//
-// Third iteration:
-// Switch transaction between request methods.
-func (p *PlayerServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	player := r.URL.Path[len("/players/"):]
-
-	switch r.Method {
-	case http.MethodPost:
-		p.processWin(w, player)
-	case http.MethodGet:
-		p.showScore(w, player)
-	}
-}
-
-func main() {
-	// First iteration:
-	// We need the `Handler` interface to be able to create a server.
-	// Typically, we do that by creating a `struct` and make it implement the interface.
-	//
-	// However, the use-case for structs is for holding data but currently, we have no state,
-	// so it doesn't feel right to be creating one.
-	// http.HandlerFunc lets us avoid this: https://golang.org/pkg/net/http/#HandlerFunc.
-	//
-	// So we use this to wrap our `PlayerServer` so that it now conforms to the type `Handler`.
-	// handler := http.HandlerFunc(PlayerServer)
-
-	// We can pass PlayerServer as argument to http.ListenAndServe because it implements
-	// ServeHTTP(http.ResponseWriter, http.Request) method.
-	server := &PlayerServer{NewInMemoryPlayerStore()}
-	if err := http.ListenAndServe(":5000", server); err != nil {
-		log.Fatalf("could not listen to port 5000: %v", err)
-	}
 }
