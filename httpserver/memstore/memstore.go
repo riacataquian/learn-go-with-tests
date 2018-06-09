@@ -32,5 +32,10 @@ func (i *MemStore) GetPlayerScore(name string) int {
 
 // GetLeague ...
 func (i *MemStore) GetLeague() []Player {
-	return nil
+	var league []Player
+	// Iterate through the map, then convert each entry to a Player struct.
+	for name, wins := range i.store {
+		league = append(league, Player{name, wins})
+	}
+	return league
 }

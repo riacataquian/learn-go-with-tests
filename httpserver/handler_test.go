@@ -139,6 +139,9 @@ func TestLeague(t *testing.T) {
 			{"Pingping", 14},
 			{"Piupiu", 10},
 		}
+		// Passing `want` to store directly, so if our implementation is correct -
+		// meaning, server just invokes stores' implementation of GetLeague(),
+		// we should not expect unmatched values.
 		store := &StubPlayerStore{nil, nil, want}
 		server := NewPlayerServer(store)
 
