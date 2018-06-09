@@ -13,7 +13,7 @@ import (
 
 func TestPlayerServer(t *testing.T) {
 	store := memstore.New()
-	server := PlayerServer{store}
+	server := NewPlayerServer(store)
 	player := "Pepper"
 
 	w := httptest.NewRecorder()

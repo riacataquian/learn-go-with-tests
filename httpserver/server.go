@@ -31,7 +31,7 @@ func main() {
 	s := memstore.New()
 	// We can pass PlayerServer as argument to http.ListenAndServe because it implements
 	// ServeHTTP(http.ResponseWriter, http.Request) method.
-	server := &PlayerServer{s}
+	server := NewPlayerServer(s)
 	if err := http.ListenAndServe(":5000", server); err != nil {
 		log.Fatalf("could not listen to port 5000: %v", err)
 	}
@@ -42,6 +42,30 @@ func main() {
 // Third iteration:
 // Switch transaction between request methods.
 func (p *PlayerServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	p.router.ServeHTTP(w, r)
+}
+
+// NewPlayerServer ...
+func NewPlayerServer(store PlayerStore) *PlayerServer {
+	p := &PlayerServer{
+		store,
+		http.NewServeMux(),
+	}
+
+	// Moving the route creation out of ServeHTTP and into our NewPlayerServer
+	// makes the process to be done only once, not per request.
+	// That is because PlayerServer encapsulates the router (http.ServeMux).
+	p.router.Handle("/league", http.HandlerFunc(p.leagueHandler))
+	p.router.Handle("/players/", http.HandlerFunc(p.playersHandler))
+
+	return p
+}
+
+func (p *PlayerServer) leagueHandler(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusOK)
+}
+
+func (p *PlayerServer) playersHandler(w http.ResponseWriter, r *http.Request) {
 	player := r.URL.Path[len("/players/"):]
 
 	switch r.Method {

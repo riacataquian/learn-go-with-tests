@@ -1,5 +1,9 @@
 package main
 
+import (
+	"net/http"
+)
+
 // PlayerStore describes a PlayerServer's persistence layer.
 type PlayerStore interface {
 	GetPlayerScore(string) int
@@ -9,7 +13,8 @@ type PlayerStore interface {
 // PlayerServer encapsulate the server's persistence layer.
 // It also implements Handler interface to be able to start an HTTP server.
 type PlayerServer struct {
-	store PlayerStore
+	store  PlayerStore
+	router *http.ServeMux // ServerMux is also a `http.Handler`.
 }
 
 // Second iteration:
