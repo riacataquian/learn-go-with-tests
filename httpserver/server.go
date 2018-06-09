@@ -38,6 +38,21 @@ func main() {
 //
 // Third iteration:
 func (p *PlayerServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodPost:
+		p.processWin(w)
+	case http.MethodGet:
+		p.showScore(w, r)
+	}
+}
+
+// processWin ...
+func (p *PlayerServer) processWin(w http.ResponseWriter) {
+	w.WriteHeader(http.StatusAccepted)
+}
+
+// showScore ...
+func (p *PlayerServer) showScore(w http.ResponseWriter, r *http.Request) {
 	player := r.URL.Path[len("/players/"):]
 	score := p.store.GetPlayerScore(player)
 
