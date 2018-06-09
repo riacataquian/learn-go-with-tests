@@ -1,4 +1,7 @@
 // Package main ...
+// Run:
+// curl -X POST http://localhost:5000/players/Pepper
+// curl http://localhost:5000/players/Pepper
 package main
 
 import (
@@ -7,16 +10,21 @@ import (
 	"net/http"
 )
 
-// InMemoryPlayerStore ...
-type InMemoryPlayerStore struct{}
-
-// GetPlayerScore ...
-func (i *InMemoryPlayerStore) GetPlayerScore(name string) int {
-	return 123
+func NewInMemoryPlayerStore() *InMemoryPlayerStore {
+	return &InMemoryPlayerStore{map[string]int{}}
 }
 
-// RecordWin ...
-func (i *InMemoryPlayerStore) RecordWin(name string) {}
+type InMemoryPlayerStore struct {
+	store map[string]int
+}
+
+func (i *InMemoryPlayerStore) RecordWin(name string) {
+	i.store[name]++
+}
+
+func (i *InMemoryPlayerStore) GetPlayerScore(name string) int {
+	return i.store[name]
+}
 
 func main() {
 	// First iteration:
@@ -32,7 +40,7 @@ func main() {
 
 	// We can pass PlayerServer as argument to http.ListenAndServe because it implements
 	// ServeHTTP(http.ResponseWriter, http.Request) method.
-	server := &PlayerServer{&InMemoryPlayerStore{}}
+	server := &PlayerServer{NewInMemoryPlayerStore()}
 	if err := http.ListenAndServe(":5000", server); err != nil {
 		log.Fatalf("could not listen to port 5000: %v", err)
 	}

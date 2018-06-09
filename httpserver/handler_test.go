@@ -24,7 +24,7 @@ func (s *StubPlayerStore) RecordWin(name string) {
 	s.winCalls = append(s.winCalls, name)
 }
 
-func TestPlayerServer(t *testing.T) {
+func TestGET(t *testing.T) {
 	store := &StubPlayerStore{
 		map[string]int{
 			"Pepper": 20,
@@ -66,17 +66,9 @@ func TestPlayerServer(t *testing.T) {
 		server.ServeHTTP(res, req)
 		assertResponseStatus(t, res.Code, http.StatusNotFound)
 	})
-
-	t.Run("it returns accepted status code on POST", func(t *testing.T) {
-		req := newPostScoreRequest("Pepper")
-		res := httptest.NewRecorder()
-
-		server.ServeHTTP(res, req)
-		assertResponseStatus(t, res.Code, http.StatusAccepted)
-	})
 }
 
-func TestStoreWins(t *testing.T) {
+func TestPOST(t *testing.T) {
 	store := &StubPlayerStore{
 		map[string]int{},
 		nil,
@@ -99,13 +91,21 @@ func TestStoreWins(t *testing.T) {
 			t.Errorf("got %s player, want %s", store.winCalls[0], player)
 		}
 	})
+
+	t.Run("it returns accepted status code on POST", func(t *testing.T) {
+		req := newPostScoreRequest("Pepper")
+		res := httptest.NewRecorder()
+
+		server.ServeHTTP(res, req)
+		assertResponseStatus(t, res.Code, http.StatusAccepted)
+	})
 }
 
 func assertResponseStatus(t *testing.T, got, want int) {
 	t.Helper()
 
 	if got != want {
-		t.Errorf("got %d, want %d", got, want)
+		t.Errorf("StatusCode: got %d, want %d", got, want)
 	}
 }
 
@@ -113,7 +113,7 @@ func assertResponseBody(t *testing.T, got, want string) {
 	t.Helper()
 
 	if got != want {
-		t.Errorf("got '%s', want '%s'", got, want)
+		t.Errorf("Response: got '%s', want '%s'", got, want)
 	}
 }
 
