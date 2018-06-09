@@ -1,12 +1,13 @@
 package main
 
-// PlayerStore ...
+// PlayerStore describes a PlayerServer's persistence layer.
 type PlayerStore interface {
 	GetPlayerScore(string) int
 	RecordWin(string)
 }
 
-// PlayerServer ...
+// PlayerServer encapsulate the server's persistence layer.
+// It also implements Handler interface to be able to start an HTTP server.
 type PlayerServer struct {
 	store PlayerStore
 }
@@ -24,7 +25,7 @@ type PlayerServer struct {
 // 	fmt.Fprintf(w, s)
 // }
 
-// GetPlayerScore ...
+// GetPlayerScore retrieves a player's score.
 func (p *PlayerServer) GetPlayerScore(name string) string {
 	if name == "Pepper" {
 		return "20"

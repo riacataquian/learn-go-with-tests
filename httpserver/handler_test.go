@@ -7,11 +7,9 @@ import (
 	"testing"
 )
 
-// StubPlayerStore ...
+// StubPlayerStore captures and encapsulates data for testing.
 type StubPlayerStore struct {
-	// Lets us mock a data source for our players score.
-	scores map[string]int
-	// Lets us spy wins of our players.
+	scores   map[string]int
 	winCalls []string
 }
 
@@ -20,6 +18,7 @@ func (s *StubPlayerStore) GetPlayerScore(name string) int {
 	return s.scores[name]
 }
 
+// RecordWin is the StubPlayerStore implementation of PlayerStore interface.
 func (s *StubPlayerStore) RecordWin(name string) {
 	s.winCalls = append(s.winCalls, name)
 }
@@ -117,13 +116,11 @@ func assertResponseBody(t *testing.T, got, want string) {
 	}
 }
 
-// newGetScoreRequest creates a new GET http request.
 func newGetScoreRequest(name string) *http.Request {
 	r, _ := http.NewRequest(http.MethodGet, fmt.Sprintf("/players/%s", name), nil)
 	return r
 }
 
-// newPostScoreRequest creates a new POST http request.
 func newPostScoreRequest(name string) *http.Request {
 	r, _ := http.NewRequest(http.MethodPost, fmt.Sprintf("/players/%s", name), nil)
 	return r

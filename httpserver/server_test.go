@@ -1,5 +1,7 @@
 package main
 
+// This test file serves as the integration test for the entire server package.
+
 import (
 	"fmt"
 	"net/http"
