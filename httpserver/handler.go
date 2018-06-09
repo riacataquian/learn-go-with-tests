@@ -2,12 +2,15 @@ package main
 
 import (
 	"net/http"
+
+	"learn-go-with-tests/httpserver/memstore"
 )
 
 // PlayerStore describes a PlayerServer's persistence layer.
 type PlayerStore interface {
 	GetPlayerScore(string) int
 	RecordWin(string)
+	GetLeague() []memstore.Player
 }
 
 // PlayerServer encapsulate the server's persistence layer.
@@ -17,13 +20,6 @@ type PlayerServer struct {
 	// By embedding http.Handler, PlayerServer now has a ServeHTTP method.
 	// Be careful tho, https://github.com/quii/learn-go-with-tests/blob/master/json.md#any-downsides.
 	http.Handler
-}
-
-// Player describes a single player entity.
-// TODO: Mind file declarations.
-type Player struct {
-	Name string
-	Wins int
 }
 
 // Second iteration:
@@ -50,4 +46,14 @@ func (p *PlayerServer) GetPlayerScore(name string) string {
 	}
 
 	return ""
+}
+
+// GetLeague ...
+func (p *PlayerServer) GetLeague() []memstore.Player {
+	return []memstore.Player{
+		{"Pins", 32},
+		{"Pongpong", 20},
+		{"Pingping", 14},
+		{"Piupiu", 10},
+	}
 }

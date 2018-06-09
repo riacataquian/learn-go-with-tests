@@ -40,8 +40,6 @@ func main() {
 
 // NewPlayerServer ...
 func NewPlayerServer(store PlayerStore) *PlayerServer {
-	log.Println("New player server...")
-
 	p := new(PlayerServer)
 	p.store = store
 
@@ -60,16 +58,13 @@ func NewPlayerServer(store PlayerStore) *PlayerServer {
 }
 
 func (p *PlayerServer) leagueHandler(w http.ResponseWriter, r *http.Request) {
-	l := []Player{
-		{"Pins", 20},
-	}
-
 	// To create an `Encoder`, we need an `io.Writer` to write to.
-	err := json.NewEncoder(w).Encode(l)
+	err := json.NewEncoder(w).Encode(p.GetLeague())
 	if err != nil {
 		log.Fatalf("error encoding response: %v", err)
 	}
 
+	w.Header().Set("content-type", "application/json")
 	w.WriteHeader(http.StatusOK)
 }
 
