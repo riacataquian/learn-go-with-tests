@@ -36,24 +36,14 @@ type PlayerServer struct {
 // }
 
 // GetPlayerScore retrieves a player's score.
-func (p *PlayerServer) GetPlayerScore(name string) string {
-	if name == "Pepper" {
-		return "20"
-	}
+// func (p *PlayerServer) GetPlayerScore(name string) string {
+// 	if name == "Pepper" {
+// 		return "20"
+// 	}
 
-	if name == "Floyd" {
-		return "10"
-	}
+// 	if name == "Floyd" {
+// 		return "10"
+// 	}
 
-	return ""
-}
-
-// GetLeague ...
-func (p *PlayerServer) GetLeague() []memstore.Player {
-	return []memstore.Player{
-		{"Pins", 32},
-		{"Pongpong", 20},
-		{"Pingping", 14},
-		{"Piupiu", 10},
-	}
-}
+// 	return ""
+// }

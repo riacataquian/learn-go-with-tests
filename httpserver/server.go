@@ -59,7 +59,7 @@ func NewPlayerServer(store PlayerStore) *PlayerServer {
 
 func (p *PlayerServer) leagueHandler(w http.ResponseWriter, r *http.Request) {
 	// To create an `Encoder`, we need an `io.Writer` to write to.
-	err := json.NewEncoder(w).Encode(p.GetLeague())
+	err := json.NewEncoder(w).Encode(p.store.GetLeague())
 	if err != nil {
 		log.Fatalf("error encoding response: %v", err)
 	}
