@@ -13,8 +13,8 @@ type PlayerStore interface {
 // PlayerServer encapsulate the server's persistence layer.
 // It also implements Handler interface to be able to start an HTTP server.
 type PlayerServer struct {
-	store  PlayerStore
-	router *http.ServeMux // ServerMux is also a `http.Handler`.
+	store PlayerStore
+	http.Handler
 }
 
 // Second iteration:

@@ -37,26 +37,23 @@ func main() {
 	}
 }
 
-// ServeHTTP is PlayerServer's Handler interface implementation.
-//
-// Third iteration:
-// Switch transaction between request methods.
-func (p *PlayerServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	p.router.ServeHTTP(w, r)
-}
-
 // NewPlayerServer ...
 func NewPlayerServer(store PlayerStore) *PlayerServer {
-	p := &PlayerServer{
-		store,
-		http.NewServeMux(),
-	}
+	log.Println("New player server...")
 
+	p := new(PlayerServer)
+	p.store = store
+
+	router := http.NewServeMux()
 	// Moving the route creation out of ServeHTTP and into our NewPlayerServer
 	// makes the process to be done only once, not per request.
-	// That is because PlayerServer encapsulates the router (http.ServeMux).
-	p.router.Handle("/league", http.HandlerFunc(p.leagueHandler))
-	p.router.Handle("/players/", http.HandlerFunc(p.playersHandler))
+	//
+	// That is because PlayerServer encapsulates the router (http.ServeMux)
+	// which has been initialized in the niladic main function.
+	router.Handle("/league", http.HandlerFunc(p.leagueHandler))
+	router.Handle("/players/", http.HandlerFunc(p.playersHandler))
+
+	p.Handler = router
 
 	return p
 }
