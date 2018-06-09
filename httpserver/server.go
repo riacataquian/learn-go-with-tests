@@ -29,8 +29,8 @@ func main() {
 	// handler := http.HandlerFunc(PlayerServer)
 
 	s := memstore.New()
-	// We can pass PlayerServer as argument to http.ListenAndServe because it implements
-	// ServeHTTP(http.ResponseWriter, http.Request) method.
+	// NewPlayerServer embeds an http.Handler - promoting its ServeHTTP method,
+	// which is the required inteface for creating a server.
 	server := NewPlayerServer(s)
 	if err := http.ListenAndServe(":5000", server); err != nil {
 		log.Fatalf("could not listen to port 5000: %v", err)

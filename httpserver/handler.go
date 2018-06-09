@@ -14,6 +14,7 @@ type PlayerStore interface {
 // It also implements Handler interface to be able to start an HTTP server.
 type PlayerServer struct {
 	store PlayerStore
+	// By embedding http.Handler, PlayerServer now has a ServeHTTP method.
 	http.Handler
 }
 
