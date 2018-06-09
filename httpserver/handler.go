@@ -3,6 +3,7 @@ package main
 // PlayerStore ...
 type PlayerStore interface {
 	GetPlayerScore(string) int
+	RecordWin(string)
 }
 
 // PlayerServer ...

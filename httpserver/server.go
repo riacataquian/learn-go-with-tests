@@ -10,9 +10,13 @@ import (
 // InMemoryPlayerStore ...
 type InMemoryPlayerStore struct{}
 
+// GetPlayerScore ...
 func (i *InMemoryPlayerStore) GetPlayerScore(name string) int {
 	return 123
 }
+
+// RecordWin ...
+func (i *InMemoryPlayerStore) RecordWin(name string) {}
 
 func main() {
 	// First iteration:
@@ -40,14 +44,16 @@ func main() {
 func (p *PlayerServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodPost:
-		p.processWin(w)
+		p.processWin(w, r)
 	case http.MethodGet:
 		p.showScore(w, r)
 	}
 }
 
 // processWin ...
-func (p *PlayerServer) processWin(w http.ResponseWriter) {
+func (p *PlayerServer) processWin(w http.ResponseWriter, r *http.Request) {
+	player := r.URL.Path[len("/players/"):]
+	p.store.RecordWin(player)
 	w.WriteHeader(http.StatusAccepted)
 }
 
