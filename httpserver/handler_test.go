@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
@@ -100,7 +101,7 @@ func TestPostPlayerScore(t *testing.T) {
 	})
 }
 
-func TestLeage(t *testing.T) {
+func TestLeague(t *testing.T) {
 	server := NewPlayerServer(&StubPlayerStore{})
 
 	t.Run("it returns 200 on GET", func(t *testing.T) {
@@ -108,6 +109,13 @@ func TestLeage(t *testing.T) {
 		res := httptest.NewRecorder()
 
 		server.ServeHTTP(res, req)
+
+		// To parse JSON in our data model, we create a `Decoder` then call its `Decode` method.
+		// To create a `Decoder`, it needs an `io.Reader` to read _from_ which in our case is response spy's `Body`.
+		var got []Player
+		if err := json.NewDecoder(res.Body).Decode(&got); err != nil {
+			t.Fatalf("Unable to parse response from server: %s, '%v'", res.Body, err)
+		}
 
 		assertResponseStatus(t, res.Code, http.StatusOK)
 	})

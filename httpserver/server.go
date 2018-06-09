@@ -9,6 +9,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -59,6 +60,16 @@ func NewPlayerServer(store PlayerStore) *PlayerServer {
 }
 
 func (p *PlayerServer) leagueHandler(w http.ResponseWriter, r *http.Request) {
+	l := []Player{
+		{"Pins", 20},
+	}
+
+	// To create an `Encoder`, we need an `io.Writer` to write to.
+	err := json.NewEncoder(w).Encode(l)
+	if err != nil {
+		log.Fatalf("error encoding response: %v", err)
+	}
+
 	w.WriteHeader(http.StatusOK)
 }
 

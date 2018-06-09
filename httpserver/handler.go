@@ -15,7 +15,15 @@ type PlayerStore interface {
 type PlayerServer struct {
 	store PlayerStore
 	// By embedding http.Handler, PlayerServer now has a ServeHTTP method.
+	// Be careful tho, https://github.com/quii/learn-go-with-tests/blob/master/json.md#any-downsides.
 	http.Handler
+}
+
+// Player describes a single player entity.
+// TODO: Mind file declarations.
+type Player struct {
+	Name string
+	Wins int
 }
 
 // Second iteration:
