@@ -19,6 +19,8 @@ type PlayerServer struct {
 	store PlayerStore
 	// By embedding http.Handler, PlayerServer now has a ServeHTTP method.
 	// Be careful tho, https://github.com/quii/learn-go-with-tests/blob/master/json.md#any-downsides.
+	//
+	// In this case, it is safe since we know what we're promoting: only the ServeHTTP method.
 	http.Handler
 }
 
