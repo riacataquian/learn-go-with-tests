@@ -30,6 +30,7 @@ func (s *StubPlayerStore) RecordWin(name string) {
 	s.winCalls = append(s.winCalls, name)
 }
 
+// GetLeague is the StubPlayerStore implementation of PlayerStore interface.
 func (s *StubPlayerStore) GetLeague() []memstore.Player {
 	return s.league
 }

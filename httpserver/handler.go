@@ -26,6 +26,7 @@ type PlayerServer struct {
 
 // Second iteration:
 // PlayerServer ...
+// Not needed since server.go makes use of store's implementation.
 // func PlayerServer(w http.ResponseWriter, r *http.Request) {
 // 	// First iteration:
 // 	// ResponseWriter also implements io.Writer so we can use fmt.Fprintf to send strings

@@ -4,7 +4,6 @@
 package memstore
 
 // Player describes a single player entity.
-// TODO: Mind file declarations.
 type Player struct {
 	Name string
 	Wins int
@@ -30,7 +29,7 @@ func (i *MemStore) GetPlayerScore(name string) int {
 	return i.store[name]
 }
 
-// GetLeague ...
+// GetLeague append all players as a league.
 func (i *MemStore) GetLeague() []Player {
 	var league []Player
 	// Iterate through the map, then convert each entry to a Player struct.

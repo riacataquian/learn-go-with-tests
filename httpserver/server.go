@@ -38,7 +38,9 @@ func main() {
 	}
 }
 
-// NewPlayerServer ...
+// NewPlayerServer initializes a PlayerServer, given a store and registers the server's routes.
+//
+// It encapsulates an http.ServerMux type, which implements an http.Handler interface.
 func NewPlayerServer(store PlayerStore) *PlayerServer {
 	p := new(PlayerServer)
 	p.store = store
