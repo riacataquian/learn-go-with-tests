@@ -1,23 +1,30 @@
 package main
 
-import (
-	"fmt"
-	"net/http"
-)
-
-// PlayerServer ...
-func PlayerServer(w http.ResponseWriter, r *http.Request) {
-	// First iteration:
-	// ResponseWriter also implements io.Writer so we can use fmt.Fprintf to send strings
-	// as HTTP responses.
-	// fmt.Fprintf(w, "20")
-
-	player := r.URL.Path[len("/players/"):]
-	s := GetPlayerScore(player)
-	fmt.Fprintf(w, s)
+// PlayerStore ...
+type PlayerStore interface {
+	GetPlayerScore(string) int
 }
 
-func GetPlayerScore(name string) string {
+// PlayerServer ...
+type PlayerServer struct {
+	store PlayerStore
+}
+
+// Second iteration:
+// PlayerServer ...
+// func PlayerServer(w http.ResponseWriter, r *http.Request) {
+// 	// First iteration:
+// 	// ResponseWriter also implements io.Writer so we can use fmt.Fprintf to send strings
+// 	// as HTTP responses.
+// 	// fmt.Fprintf(w, "20")
+
+// 	player := r.URL.Path[len("/players/"):]
+// 	s := GetPlayerScore(player)
+// 	fmt.Fprintf(w, s)
+// }
+
+// GetPlayerScore ...
+func (p *PlayerServer) GetPlayerScore(name string) string {
 	if name == "Pepper" {
 		return "20"
 	}

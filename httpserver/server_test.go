@@ -7,12 +7,30 @@ import (
 	"testing"
 )
 
+// StubPlayerStore ...
+type StubPlayerStore struct {
+	scores map[string]int
+}
+
+// GetPlayerScore is the StubPlayerStore implementation of PlayerStore interface.
+func (s *StubPlayerStore) GetPlayerScore(name string) int {
+	return s.scores[name]
+}
+
 func TestPlayerServer(t *testing.T) {
+	store := &StubPlayerStore{
+		map[string]int{
+			"Pepper": 20,
+			"Floyd":  10,
+		},
+	}
+	server := &PlayerServer{store}
+
 	t.Run("returns Pepper's score", func(t *testing.T) {
 		req := newGetScoreRequest("Pepper")
 		res := httptest.NewRecorder()
 
-		PlayerServer(res, req)
+		server.ServeHTTP(res, req)
 		assertResponseBody(t, res.Body.String(), "20")
 	})
 
@@ -20,7 +38,7 @@ func TestPlayerServer(t *testing.T) {
 		req := newGetScoreRequest("Floyd")
 		res := httptest.NewRecorder()
 
-		PlayerServer(res, req)
+		server.ServeHTTP(res, req)
 		assertResponseBody(t, res.Body.String(), "10")
 
 	})
