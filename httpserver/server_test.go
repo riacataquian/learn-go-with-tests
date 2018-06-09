@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -8,32 +9,33 @@ import (
 
 func TestPlayerServer(t *testing.T) {
 	t.Run("returns Pepper's score", func(t *testing.T) {
-		// Create an http request.
-		request, _ := http.NewRequest(http.MethodGet, "/players/Pepper", nil)
-		// Spy on our response.
-		response := httptest.NewRecorder()
+		req := newGetScoreRequest("Pepper")
+		res := httptest.NewRecorder()
 
-		PlayerServer(response, request)
-
-		got := response.Body.String()
-		want := "20"
-
-		if got != want {
-			t.Errorf("PlayerServer(_, _): got '%s', want '%s'", got, want)
-		}
+		PlayerServer(res, req)
+		assertResponseBody(t, res.Body.String(), "20")
 	})
 
 	t.Run("returns Floyd's score", func(t *testing.T) {
-		request, _ := http.NewRequest(http.MethodGet, "/players/Floyd", nil)
-		response := httptest.NewRecorder()
+		req := newGetScoreRequest("Floyd")
+		res := httptest.NewRecorder()
 
-		PlayerServer(response, request)
+		PlayerServer(res, req)
+		assertResponseBody(t, res.Body.String(), "10")
 
-		got := response.Body.String()
-		want := "10"
-
-		if got != want {
-			t.Errorf("PlayerServer(_, _): got '%s', want '%s'", got, want)
-		}
 	})
+}
+
+func assertResponseBody(t *testing.T, got, want string) {
+	t.Helper()
+
+	if got != want {
+		t.Errorf("PlayerServer(_, _): got '%s', want '%s'", got, want)
+	}
+}
+
+// Create a new http request.
+func newGetScoreRequest(name string) *http.Request {
+	r, _ := http.NewRequest(http.MethodGet, fmt.Sprintf("/players/%s", name), nil)
+	return r
 }
