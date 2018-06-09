@@ -42,6 +42,30 @@ func TestPlayerServer(t *testing.T) {
 		assertResponseBody(t, res.Body.String(), "10")
 
 	})
+
+	t.Run("returns 200 for players found", func(t *testing.T) {
+		req := newGetScoreRequest("Floyd")
+		res := httptest.NewRecorder()
+
+		server.ServeHTTP(res, req)
+		assertResponseStatus(t, res.Code, http.StatusOK)
+	})
+
+	t.Run("returns 404 on missing players", func(t *testing.T) {
+		req := newGetScoreRequest("Apollo")
+		res := httptest.NewRecorder()
+
+		server.ServeHTTP(res, req)
+		assertResponseStatus(t, res.Code, http.StatusNotFound)
+	})
+}
+
+func assertResponseStatus(t *testing.T, got, want int) {
+	t.Helper()
+
+	if got != want {
+		t.Errorf("PlayerServer(_, _): got %d, want %d", got, want)
+	}
 }
 
 func assertResponseBody(t *testing.T, got, want string) {

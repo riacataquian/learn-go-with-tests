@@ -7,6 +7,13 @@ import (
 	"net/http"
 )
 
+// InMemoryPlayerStore ...
+type InMemoryPlayerStore struct{}
+
+func (i *InMemoryPlayerStore) GetPlayerScore(name string) int {
+	return 123
+}
+
 func main() {
 	// First iteration:
 	// We need the `Handler` interface to be able to create a server.
@@ -21,7 +28,7 @@ func main() {
 
 	// We can pass PlayerServer as argument to http.ListenAndServe because it implements
 	// ServeHTTP(http.ResponseWriter, http.Request) method.
-	server := &PlayerServer{}
+	server := &PlayerServer{&InMemoryPlayerStore{}}
 	if err := http.ListenAndServe(":5000", server); err != nil {
 		log.Fatalf("could not listen to port 5000: %v", err)
 	}
@@ -32,5 +39,12 @@ func main() {
 // Third iteration:
 func (p *PlayerServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	player := r.URL.Path[len("/players/"):]
-	fmt.Fprint(w, p.store.GetPlayerScore(player))
+	score := p.store.GetPlayerScore(player)
+
+	// Write status not found for missing players.
+	if score == 0 {
+		w.WriteHeader(http.StatusNotFound)
+	}
+
+	fmt.Fprint(w, score)
 }
